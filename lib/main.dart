@@ -30,6 +30,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _displayCount = 10;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,18 +39,32 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-        ),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return Image.network(
-            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png",
-            height: 50,
-            width: 50,
-          );
-        },
+      body: Column(
+        children: [
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              ),
+              itemCount: _displayCount,
+              itemBuilder: (context, index) {
+                return Image.network(
+                  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${index + 1}.png",
+                  height: 50,
+                  width: 50,
+                );
+              },
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              setState(() {
+                _displayCount += 10;
+              });
+            },
+            child: const Text("更に読み込む"),
+          )
+        ],
       ),
     );
   }
